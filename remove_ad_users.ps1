@@ -8,7 +8,7 @@ $perenimi=Read-Host
     $username = $username.ToLower()
     $username = Translit($username)
     $ErrorActionPreference = "SilentlyContinue"
-    Remove-ADUser $username
+    Remove-ADUser $username -Confirm:$false
 if(!$?)
 {
 echo "User doen't exist or a problem occured during deletion"
