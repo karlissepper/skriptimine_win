@@ -1,14 +1,14 @@
 ﻿#Kustutab sisestatud kasutaja
 Echo "Sisesta eesnimi"
 $eesnimi=Read-Host
-Echo "Sisesta oma perekonnanimi"
+Echo "Sisesta perekonnanimi"
 $perenimi=Read-Host
     #username is firstname.lastname
     $username = $eesnimi + "." + $perenimi
     $username = $username.ToLower()
     $username = Translit($username)
+    $ErrorActionPreference = "SilentlyContinue"
     Remove-ADUser $username
-$ErrorActionPreference = "SilentlyContinue"
 if(!$?)
 {
 echo "User doen't exist or a problem occured during deletion"
