@@ -3,6 +3,7 @@ $file = "C:\Users\Administrator\Documents\skriptimine\adkasutajad.csv"
 # import file content
 $users = Import-Csv $file -Encoding Default -Delimiter ";"
 # foreach user data row in file
+$ErrorActionPreference = "SilentlyContinue"
 foreach ($user in $users){
     #username is firstname.lastname
     $username = $user.FirstName + "." + $user.LastName
@@ -13,7 +14,17 @@ foreach ($user in $users){
     #display name = eesnimi + perenimi
     $displayname = $user.FirstName + " " + $user.LastName
     New-ADUser -Name $username -DisplayName $displayname -GivenName $user.FirstName -Surname $user.LastName -Department $user.Department -Title $user.Role -UserPrincipalName $upname -AccountPassword (ConvertTo-SecureString $user.Password -AsPlainText -Force) -Enabled $true
+if(!$?)
+{
+echo "User $username already exists - can not add this user"
 }
+else
+{
+echo "New user $username added succsesfully"
+}
+}
+
+$ErrorActionPreference = "Stop"
 #function translit UTF-8 characters to LATIN
 function Translit {
     #function use as parameter string to translit
